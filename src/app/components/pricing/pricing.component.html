@@ -1,0 +1,17 @@
+<section #section class="pricing" id="pricing" aria-labelledby="pricing-title">
+  <div class="section-head">
+    <p data-reveal>PRICING</p><h2 id="pricing-title" data-reveal>Choose the plan that fits your business.</h2>
+    <span data-reveal>Simple pricing. No hidden fees.</span>
+  </div>
+  <div class="plan-grid">
+    @for (plan of plans; track plan.name) {
+      <article class="plan" [class.popular]="plan.popular" data-reveal>
+        @if (plan.popular) { <b>{{ plan.note }}</b> }
+        <h3>{{ plan.name }}</h3><strong>{{ plan.price }}</strong>
+        @if (!plan.popular) { <p>{{ plan.note }}</p> }
+        <ul>@for (feature of plan.features; track feature) { <li>{{ feature }}</li> }</ul>
+        <a href="#cta">{{ plan.cta }}</a>
+      </article>
+    }
+  </div>
+</section>

@@ -1,0 +1,28 @@
+<section #section class="assistant" id="ai-assistant" aria-labelledby="assistant-title">
+  <div class="assistant-grid">
+    <div class="orb-wrap" data-reveal>
+      <div #orb class="orb" [class.orb--answering]="answering()" aria-hidden="true"></div>
+    </div>
+    <div class="copy">
+      <p data-reveal>AI ASSISTANT</p>
+      <h2 id="assistant-title" data-reveal>Ask your business anything.</h2>
+      <span data-reveal>Your built-in AI accountant answers questions instantly.</span>
+      <div class="chat-list">
+        @for (chat of chats; track chat[0]) {
+          <article [class.active]="activeIndex() === $index" data-reveal>
+            <button type="button" (click)="ask($index)">
+              <span>User</span>
+              {{ chat[0] }}
+            </button>
+
+            @if (activeIndex() === $index && answering()) {
+              <p class="typing">AI is thinking</p>
+            } @else if (activeIndex() === $index) {
+              <strong>AI:<br>{{ chat[1] }}</strong>
+            }
+          </article>
+        }
+      </div>
+    </div>
+  </div>
+</section>

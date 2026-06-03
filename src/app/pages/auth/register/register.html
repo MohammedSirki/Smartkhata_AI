@@ -1,0 +1,75 @@
+<main class="auth-shell">
+  <section class="auth-copy" aria-label="SmartKhata AI benefits">
+    <a class="brand" routerLink="/">
+      <img src="assets/logo/logo.png" alt="SmartKhata AI" width="44" height="44">
+      <span>SmartKhata AI</span>
+    </a>
+
+    <div>
+      <p class="eyebrow">Start free</p>
+      <h1>Open your AI-powered business desk in under a minute.</h1>
+      <p>Register once, then step into a focused dashboard with accounting metrics and the AI Core assistant.</p>
+    </div>
+
+    <ul>
+      <li>Instant dashboard with revenue, profit, inventory, and transactions</li>
+      <li>Global AI Core available only inside authenticated app pages</li>
+      <li>Mock local auth today, backend-ready structure tomorrow</li>
+    </ul>
+  </section>
+
+  <section class="auth-panel" aria-labelledby="register-title">
+    <form class="auth-card" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <p class="eyebrow">Register</p>
+      <h2 id="register-title">Create Your Account</h2>
+      <p>Start using AI-powered accounting in under a minute.</p>
+
+      <label class="field">
+        <span>Full Name</span>
+        <input type="text" formControlName="fullName" placeholder="Aarav Mehta" autocomplete="name">
+        @if (showError('fullName')) {
+          <small>Full name is required.</small>
+        }
+      </label>
+
+      <label class="field">
+        <span>Business Name</span>
+        <input type="text" formControlName="businessName" placeholder="Mehta Traders" autocomplete="organization">
+        @if (showError('businessName')) {
+          <small>Business name is required.</small>
+        }
+      </label>
+
+      <label class="field">
+        <span>Email</span>
+        <input type="email" formControlName="email" placeholder="you@business.com" autocomplete="email">
+        @if (showError('email')) {
+          <small>{{ form.controls.email.hasError('required') ? 'Email is required.' : 'Enter a valid email address.' }}</small>
+        }
+      </label>
+
+      <label class="field">
+        <span>Password</span>
+        <input type="password" formControlName="password" placeholder="At least 8 characters" autocomplete="new-password">
+        @if (showError('password')) {
+          <small>{{ form.controls.password.hasError('required') ? 'Password is required.' : 'Password must be at least 8 characters.' }}</small>
+        }
+      </label>
+
+      <label class="field">
+        <span>Confirm Password</span>
+        <input type="password" formControlName="confirmPassword" placeholder="Repeat password" autocomplete="new-password">
+        @if (showError('confirmPassword')) {
+          <small>Confirm your password.</small>
+        } @else if (confirmMismatch()) {
+          <small>Passwords must match.</small>
+        }
+      </label>
+
+      <button class="primary-action" type="submit">Create Account</button>
+      <button class="secondary-action" type="button">Continue with Google</button>
+
+      <p class="switch-copy">Already have an account? <a routerLink="/auth/login">Sign In</a></p>
+    </form>
+  </section>
+</main>

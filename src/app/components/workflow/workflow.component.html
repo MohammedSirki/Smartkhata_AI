@@ -1,0 +1,23 @@
+<section #workflowSection class="workflow" id="workflow" aria-labelledby="workflow-title">
+  <div class="workflow__header">
+    <p class="workflow__label" data-workflow-reveal>HOW IT WORKS</p>
+    <h2 id="workflow-title" data-workflow-reveal>
+      From one line of text to a complete financial record.
+    </h2>
+    <p class="workflow__description" data-workflow-reveal>
+      SmartKhata AI turns everyday business words into structured accounting, inventory updates, and reports automatically.
+    </p>
+  </div>
+
+  <div class="workflow__timeline" aria-label="SmartKhata AI workflow">
+    <span class="workflow__line" data-timeline-line aria-hidden="true"></span>
+
+    @for (step of steps; track step.number) {
+      <article class="workflow-card" data-step-card>
+        <span class="workflow-card__number">{{ step.number }}</span>
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.text }}</p>
+      </article>
+    }
+  </div>
+</section>

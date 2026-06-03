@@ -1,0 +1,61 @@
+<main class="auth-shell">
+  <section class="auth-copy" aria-label="SmartKhata AI benefits">
+    <a class="brand" routerLink="/">
+      <img src="assets/logo/logo.png" alt="SmartKhata AI" width="44" height="44">
+      <span>SmartKhata AI</span>
+    </a>
+
+    <div>
+      <p class="eyebrow">Premium AI accounting</p>
+      <h1>Run the books with sharper AI beside you.</h1>
+      <p>Track cashflow, inventory, profit, and business decisions from one focused fintech workspace.</p>
+    </div>
+
+    <ul>
+      <li>AI summaries for revenue, profit, and stock movement</li>
+      <li>Secure local demo authentication for this build phase</li>
+      <li>Designed for fast business owners, not spreadsheet babysitting</li>
+    </ul>
+  </section>
+
+  <section class="auth-panel" aria-labelledby="login-title">
+    <form class="auth-card" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <p class="eyebrow">Login</p>
+      <h2 id="login-title">Welcome Back</h2>
+      <p>Sign in to manage your business with AI.</p>
+
+      <label class="field">
+        <span>Email</span>
+        <input type="email" formControlName="email" placeholder="you@business.com" autocomplete="email">
+        @if (showError('email')) {
+          <small>{{ form.controls.email.hasError('required') ? 'Email is required.' : 'Enter a valid email address.' }}</small>
+        }
+      </label>
+
+      <label class="field">
+        <span>Password</span>
+        <input type="password" formControlName="password" placeholder="Your password" autocomplete="current-password">
+        @if (showError('password')) {
+          <small>Password is required.</small>
+        }
+      </label>
+
+      <div class="form-row">
+        <label class="check">
+          <input type="checkbox" formControlName="remember">
+          <span>Remember Me</span>
+        </label>
+        <a routerLink="/auth/register">Forgot Password</a>
+      </div>
+
+      @if (authError()) {
+        <div class="auth-error" role="alert">{{ authError() }}</div>
+      }
+
+      <button class="primary-action" type="submit">Sign In</button>
+      <button class="secondary-action" type="button">Continue with Google</button>
+
+      <p class="switch-copy">Don't have an account? <a routerLink="/auth/register">Create Account</a></p>
+    </form>
+  </section>
+</main>

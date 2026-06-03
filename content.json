@@ -1,0 +1,168 @@
+{
+  "brand": "SmartKhata AI",
+  "tagline": "Your Business. Automated.",
+
+  "hero": {
+    "headline": "Your Smartest Employee Never Takes a Day Off.",
+    "subheadline": "SmartKhata AI listens to how you run your business — in plain language — and handles every entry, every report, and every rupee automatically. No spreadsheets. No accountant. No stress.",
+    "cta_primary": "Start Free — No Credit Card Needed",
+    "cta_secondary": "Watch How It Works",
+    "trust_line": "Trusted by 10,000+ shopkeepers, freelancers & small businesses across India"
+  },
+
+  "features": {
+    "section_label": "WHY SMARTKHATA AI",
+    "section_heading": "Accounting That Actually Understands You",
+    "section_subheading": "Forget ledgers, formulas, and confusing software. Just talk to SmartKhata AI the way you talk to your staff.",
+    "cards": [
+      {
+        "icon": "✦",
+        "title": "Just Type. It Does the Rest.",
+        "body": "Say \"Sold 3 shirts for ₹450 each\" and SmartKhata instantly logs the sale, updates your stock, calculates your margin, and files the entry — in under a second. No forms. No fields. No friction."
+      },
+      {
+        "icon": "◈",
+        "title": "Real-Time Profit Clarity",
+        "body": "Know exactly how much you made today, this week, and this month — without opening a single spreadsheet. SmartKhata tracks your income, expenses, and profit live, so you're always in control."
+      },
+      {
+        "icon": "⬡",
+        "title": "GST-Ready Reports, Instantly",
+        "body": "Generate professional P&L statements, inventory reports, and GST summaries in one tap. Whether it's for your CA or your own peace of mind — your books are always audit-ready."
+      }
+    ]
+  },
+
+  "ai_workflow": {
+    "section_label": "HOW IT WORKS",
+    "section_heading": "From One Line of Text to a Complete Financial Record",
+    "section_subheading": "SmartKhata AI turns your everyday words into structured, accurate accounting — automatically.",
+    "steps": [
+      {
+        "step": "01",
+        "title": "You Type Naturally",
+        "description": "Type or speak in Hindi, English, or Hinglish. \"Bought 50 pens for ₹5 each\" or \"Customer returned 2 shirts, refund ₹900\" — SmartKhata understands it all."
+      },
+      {
+        "step": "02",
+        "title": "AI Parses & Classifies",
+        "description": "Our AI engine identifies the transaction type, extracts item details, quantities, and amounts, then maps it to the correct accounting category — instantly."
+      },
+      {
+        "step": "03",
+        "title": "Records Update Automatically",
+        "description": "Inventory adjusts. Ledgers update. Profit/loss recalculates. Every number stays accurate without you lifting another finger."
+      },
+      {
+        "step": "04",
+        "title": "Reports Generate on Demand",
+        "description": "Need your weekly summary or monthly P&L? One tap. SmartKhata compiles clean, professional reports you can share, export, or show your CA directly."
+      }
+    ]
+  },
+
+  "dashboard": {
+    "section_label": "YOUR COMMAND CENTER",
+    "section_heading": "Everything at a Glance. Nothing Lost in the Numbers.",
+    "section_subheading": "The SmartKhata dashboard gives you a complete, real-time picture of your business — designed for clarity, built for speed.",
+    "highlights": [
+      {
+        "metric": "Today's Revenue",
+        "description": "See exactly what came in today — broken down by product, sale, or category."
+      },
+      {
+        "metric": "Live Inventory",
+        "description": "Track stock in real-time. Get alerts before you run out. Never lose a sale to a stockout."
+      },
+      {
+        "metric": "Profit & Loss",
+        "description": "Daily, weekly, monthly — your P&L is always fresh, always accurate, always one tap away."
+      },
+      {
+        "metric": "Transaction History",
+        "description": "Every entry, timestamped and searchable. Your full business history, always accessible."
+      }
+    ],
+    "caption": "Clean. Powerful. Built for people running real businesses — not MBA classrooms."
+  },
+
+  "pricing": {
+    "section_label": "PRICING",
+    "section_heading": "Less Than Your Daily Chai. More Powerful Than a Full-Time Accountant.",
+    "section_subheading": "Simple, honest pricing. No hidden fees. No lock-ins.",
+    "plans": [
+      {
+        "name": "Starter",
+        "price": "₹0",
+        "period": "Forever Free",
+        "description": "Perfect for freelancers and solo sellers just getting started.",
+        "features": [
+          "Up to 100 transactions/month",
+          "AI natural language entry",
+          "Basic P&L report",
+          "Inventory tracking (up to 50 items)",
+          "Mobile app access"
+        ],
+        "cta": "Get Started Free",
+        "highlight": false
+      },
+      {
+        "name": "Pro",
+        "price": "₹299",
+        "period": "per month",
+        "description": "For growing shops and small businesses that need full power.",
+        "features": [
+          "Unlimited transactions",
+          "Advanced AI understanding (Hindi + English)",
+          "GST-ready reports",
+          "Full inventory management",
+          "Multi-user access (up to 3 seats)",
+          "Export to Excel & PDF",
+          "Priority support"
+        ],
+        "cta": "Start 14-Day Free Trial",
+        "highlight": true,
+        "badge": "Most Popular"
+      },
+      {
+        "name": "Business",
+        "price": "₹799",
+        "period": "per month",
+        "description": "For established businesses managing multiple verticals or locations.",
+        "features": [
+          "Everything in Pro",
+          "Unlimited user seats",
+          "Multi-location inventory",
+          "CA-sharing portal",
+          "Custom report builder",
+          "Dedicated account manager",
+          "API access"
+        ],
+        "cta": "Contact Sales",
+        "highlight": false
+      }
+    ],
+    "footnote": "All plans include bank-grade 256-bit encryption and automatic daily backups. Cancel anytime."
+  },
+
+  "cta": {
+    "section_heading": "Your Books Won't Keep Themselves. But SmartKhata Will.",
+    "section_subheading": "Join thousands of Indian business owners who've replaced chaos with clarity. Start free in under 60 seconds — no setup, no training, no accountant required.",
+    "cta_primary": "Start Free Today",
+    "cta_secondary": "Book a Live Demo",
+    "reassurance": "Free forever plan available • No credit card needed • Setup in 60 seconds"
+  },
+
+  "footer": {
+    "brand_statement": "SmartKhata AI — Built for the backbone of India's economy: the small business owner who wears every hat.",
+    "links": {
+      "product": ["Features", "Pricing", "Changelog", "Roadmap"],
+      "company": ["About Us", "Blog", "Careers", "Press Kit"],
+      "support": ["Help Center", "Contact Us", "WhatsApp Support", "System Status"],
+      "legal": ["Privacy Policy", "Terms of Service", "Refund Policy", "Cookie Policy"]
+    },
+    "social_proof_line": "Rated 4.8/5 by 10,000+ business owners on Google Play & App Store",
+    "copyright": "© 2025 SmartKhata AI Technologies Pvt. Ltd. All rights reserved.",
+    "compliance_note": "GST-compliant • Data stored in India • ISO 27001 Certified"
+  }
+}

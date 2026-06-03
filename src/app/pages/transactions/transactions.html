@@ -1,0 +1,74 @@
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Transactions</p>
+    <h1>Transaction History</h1>
+  </div>
+  <div class="actions">
+    <button type="button" (click)="export('json')">Export JSON</button>
+    <button type="button" (click)="export('csv')">Export CSV</button>
+  </div>
+</section>
+
+<section class="toolbar">
+  <input type="search" placeholder="Search transactions..." [ngModel]="query()" (ngModelChange)="query.set($event)">
+  <div class="filters" aria-label="Transaction filters">
+    @for (filter of filters; track filter) {
+      <button type="button" [class.active]="activeFilter() === filter" (click)="activeFilter.set(filter)">
+        {{ filter }}
+      </button>
+    }
+  </div>
+</section>
+
+@if (copied()) {
+  <p class="export-message">{{ copied() }}</p>
+}
+
+<section class="content-grid">
+  <article class="panel table-panel">
+    <div class="transaction-table">
+      <div class="transaction-row transaction-row--head">
+        <span>Date</span>
+        <span>Type</span>
+        <span>Description</span>
+        <span>Amount</span>
+        <span>Status</span>
+      </div>
+      @for (transaction of transactions(); track transaction.id) {
+        <button class="transaction-row" type="button" (click)="selectTransaction(transaction)">
+          <span>{{ formatDate(transaction.timestamp) }}</span>
+          <b>{{ transaction.type }}</b>
+          <span>{{ transaction.description }}</span>
+          <strong>{{ currency(transaction.total) }}</strong>
+          <b>{{ transaction.status }}</b>
+        </button>
+      } @empty {
+        <div class="transaction-row">
+          <span>No date</span>
+          <b>Ready</b>
+          <span>No transactions found.</span>
+          <strong>{{ currency(0) }}</strong>
+          <b>Waiting</b>
+        </div>
+      }
+    </div>
+  </article>
+
+  <aside class="panel details">
+    <p class="eyebrow">Details</p>
+    @if (selected(); as transaction) {
+      <h2>{{ transaction.description }}</h2>
+      <dl>
+        <div><dt>Type</dt><dd>{{ transaction.type }}</dd></div>
+        <div><dt>Item</dt><dd>{{ transaction.item }}</dd></div>
+        <div><dt>Quantity</dt><dd>{{ transaction.quantity }}</dd></div>
+        <div><dt>Unit Price</dt><dd>{{ currency(transaction.unitPrice) }}</dd></div>
+        <div><dt>Total</dt><dd>{{ currency(transaction.total) }}</dd></div>
+        <div><dt>Status</dt><dd>{{ transaction.status }}</dd></div>
+      </dl>
+    } @else {
+      <h2>Select a transaction</h2>
+      <p>Open any row to inspect parsed item, quantity, pricing, and status.</p>
+    }
+  </aside>
+</section>

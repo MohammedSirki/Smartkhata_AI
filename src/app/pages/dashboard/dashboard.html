@@ -1,0 +1,127 @@
+<section class="page-head">
+  <p class="eyebrow">Dashboard</p>
+  <h1>Welcome back, {{ user()?.fullName || 'Founder' }}</h1>
+  <p>Here's your business overview today.</p>
+</section>
+
+<section class="stats-grid" aria-label="Business stats">
+  @for (stat of stats(); track stat.label) {
+    <article class="stat-card stat-card--{{ stat.sentiment }}">
+      <span>{{ stat.label }}</span>
+      <strong>{{ stat.value }}</strong>
+      <b>{{ stat.trend }}</b>
+    </article>
+  }
+</section>
+
+<section class="dashboard-grid">
+  <article class="panel ai-entry">
+    <div class="panel-head">
+      <p class="eyebrow">AI Transaction Entry</p>
+      <h2>Tell SmartKhata what happened.</h2>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submitEntry()">
+      <input formControlName="entry" placeholder="Tell SmartKhata what happened...">
+      <button type="submit">Process</button>
+    </form>
+
+    <div class="chips">
+      @for (chip of chips; track chip) {
+        <button type="button" (click)="useChip(chip)">{{ chip }}</button>
+      }
+    </div>
+
+    @if (processing()) {
+      <div class="processing" aria-live="polite">
+        <i></i><i></i><i></i>
+        <span>SmartKhata is reading your transaction...</span>
+      </div>
+    }
+
+    @if (error()) {
+      <div class="result result--error" aria-live="polite">
+        <span>{{ error() }}</span>
+      </div>
+    }
+
+    @if (resultVisible()) {
+      <div class="result">
+        <span>✓ {{ lastTransactionType() }} Recorded</span>
+        <span>Inventory Updated</span>
+        <span>Revenue Updated</span>
+        <span>Profit Recalculated</span>
+        <span>Dashboard Synced</span>
+      </div>
+    }
+  </article>
+
+  <article class="panel insights">
+    <p class="eyebrow">AI Insights</p>
+    @for (insight of insights(); track insight) {
+      <p>{{ insight }}</p>
+    }
+  </article>
+</section>
+
+<section class="chart-grid">
+  <article class="panel">
+    <div class="panel-head">
+      <p class="eyebrow">Revenue vs Expense</p>
+      <h2>Daily movement</h2>
+    </div>
+    <div class="bar-chart" aria-label="Revenue vs Expense chart">
+      <span style="--h: 70%"></span>
+      <span class="expense" style="--h: 38%"></span>
+      <span style="--h: 86%"></span>
+      <span class="expense" style="--h: 42%"></span>
+      <span style="--h: 62%"></span>
+      <span class="expense" style="--h: 30%"></span>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="panel-head">
+      <p class="eyebrow">Profit Trend</p>
+      <h2>Mock growth curve</h2>
+    </div>
+    <svg class="line-chart" viewBox="0 0 420 180" role="img" aria-label="Profit trend chart">
+      <polyline points="20,140 90,112 160,120 230,76 300,88 380,42" />
+      <circle cx="380" cy="42" r="6" />
+    </svg>
+  </article>
+</section>
+
+<section class="panel table-panel">
+  <div class="panel-head">
+    <p class="eyebrow">Recent Transactions</p>
+    <h2>Latest activity</h2>
+  </div>
+
+  <div class="table">
+    <div class="table-row table-row--head">
+      <span>Date</span>
+      <span>Type</span>
+      <span>Description</span>
+      <span>Amount</span>
+      <span>Status</span>
+    </div>
+    @for (transaction of transactions(); track transaction.id) {
+      <div class="table-row">
+        <span>{{ formatDate(transaction.timestamp) }}</span>
+        <b>{{ transaction.type }}</b>
+        <span>{{ transaction.description }}</span>
+        <strong>{{ currency(transaction.total) }}</strong>
+        <b>{{ transaction.status }}</b>
+      </div>
+    } @empty {
+      <div class="table-row">
+        <span>No transactions yet</span>
+        <b>Ready</b>
+        <span>Use the AI transaction box to record activity.</span>
+        <strong>{{ currency(0) }}</strong>
+        <b>Waiting</b>
+      </div>
+    }
+  </div>
+</section>

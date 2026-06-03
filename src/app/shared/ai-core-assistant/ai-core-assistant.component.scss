@@ -1,0 +1,103 @@
+:host {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 60;
+  display: block;
+  pointer-events: none;
+}
+
+.ai-core-shell {
+  position: relative;
+  width: 130px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(217, 229, 63, 0.26);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(217, 229, 63, 0.1), rgba(255, 255, 255, 0.035) 58%, rgba(0, 0, 0, 0.18));
+  box-shadow:
+    0 0 34px rgba(217, 229, 63, 0.2),
+    0 24px 70px rgba(0, 0, 0, 0.42);
+  cursor: pointer;
+  overflow: visible;
+  pointer-events: auto;
+  transform-origin: center;
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+  animation: floatCore 4.5s ease-in-out infinite;
+}
+
+.ai-core-shell:hover {
+  transform: scale(1.06);
+  border-color: rgba(217, 229, 63, 0.62);
+  box-shadow:
+    0 0 54px rgba(217, 229, 63, 0.34),
+    0 28px 80px rgba(0, 0, 0, 0.5);
+}
+
+.glow {
+  position: absolute;
+  inset: 15%;
+  border-radius: inherit;
+  background: rgba(217, 229, 63, 0.18);
+  filter: blur(28px);
+}
+
+canvas {
+  position: relative;
+  z-index: 1;
+  width: 116%;
+  height: 116%;
+}
+
+.label {
+  position: absolute;
+  right: 0.2rem;
+  bottom: 0.15rem;
+  z-index: 2;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid rgba(217, 229, 63, 0.28);
+  border-radius: 8px;
+  background: rgba(5, 5, 5, 0.82);
+  color: var(--primary);
+  font-size: 0.72rem;
+  font-weight: 950;
+  line-height: 1;
+  white-space: nowrap;
+  backdrop-filter: blur(12px);
+}
+
+@keyframes floatCore {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -10px;
+  }
+}
+
+@media (max-width: 620px) {
+  :host {
+    right: max(0.75rem, env(safe-area-inset-right));
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  .ai-core-shell {
+    width: 100px;
+  }
+
+  .label {
+    font-size: 0.66rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-core-shell {
+    animation: none;
+  }
+}

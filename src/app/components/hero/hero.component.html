@@ -1,0 +1,58 @@
+<section #heroRoot class="hero" id="hero" aria-labelledby="hero-title">
+  <div class="hero__grid">
+    <div class="hero__content">
+      <p class="hero__eyebrow" data-hero-reveal>AI-Powered Accounting</p>
+
+      <h1 id="hero-title" class="hero__title" data-hero-reveal>
+        <span>AI Accounting.</span>
+        <span>Without the Accounting.</span>
+      </h1>
+
+      <p class="hero__subheadline" data-hero-reveal>
+        Record sales, track inventory, manage expenses, and generate reports using simple natural language.
+      </p>
+
+      <div class="hero__actions" data-hero-reveal aria-label="Primary actions">
+        <a class="button button--primary" routerLink="/auth">Start Free</a>
+        <a class="button button--secondary" href="#ai-demo">Watch Demo</a>
+      </div>
+
+      <p class="hero__trust" data-hero-reveal>
+        Trusted by small businesses, freelancers and shop owners across India.
+      </p>
+
+      <div class="hero__stats" aria-label="SmartKhata AI platform stats">
+        @for (stat of stats; track stat.label) {
+          <article class="stat-card" data-stat-card>
+            <p>{{ stat.label }}</p>
+            <strong>{{ stat.value }}</strong>
+          </article>
+        }
+      </div>
+    </div>
+
+    <div #modelShell class="hero__visual" data-model-shell aria-label="SmartKhata AI 3D model preview">
+      <div #modelStage class="hero__stage">
+        <div #modelGlow class="hero__glow" aria-hidden="true"></div>
+        <div class="hero__grid-pattern" aria-hidden="true"></div>
+
+        <canvas
+          #modelCanvas
+          class="hero__canvas"
+          [hidden]="showFallback"
+          aria-label="Floating AI core model"
+        ></canvas>
+
+        @if (showFallback) {
+          <img
+            class="hero__fallback"
+            src="assets/logo/logo.png"
+            alt="SmartKhata AI"
+            width="320"
+            height="320"
+          />
+        }
+      </div>
+    </div>
+  </div>
+</section>

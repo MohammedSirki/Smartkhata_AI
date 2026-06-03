@@ -1,0 +1,79 @@
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Reports</p>
+    <h1>Reports</h1>
+  </div>
+  <div class="actions">
+    <button type="button">Download PDF</button>
+    <button type="button" (click)="exportReports()">Export Excel</button>
+    <button type="button">Share with CA</button>
+  </div>
+</section>
+
+<div class="tabs" role="tablist" aria-label="Report period">
+  @for (tab of tabs; track tab) {
+    <button type="button" [class.active]="activeTab() === tab" (click)="activeTab.set(tab)">
+      {{ tab }}
+    </button>
+  }
+</div>
+
+<section class="report-grid" aria-label="Report summary">
+  @for (card of reportCards(); track card.label) {
+    <article class="report-card">
+      <span>{{ card.label }}</span>
+      <strong>{{ card.value }}</strong>
+    </article>
+  }
+</section>
+
+<section class="content-grid">
+  <article class="panel">
+    <p class="eyebrow">{{ activeTab() }} Overview</p>
+    <h2>Sales and expense performance</h2>
+    <div class="mini-bars" aria-label="Mock report chart">
+      <span style="--h: 58%"></span>
+      <span style="--h: 74%"></span>
+      <span style="--h: 46%"></span>
+      <span style="--h: 86%"></span>
+      <span style="--h: 64%"></span>
+    </div>
+  </article>
+
+  <article class="panel sections">
+    <p class="eyebrow">Sections</p>
+    @for (section of sections; track section) {
+      <button type="button">{{ section }}</button>
+    }
+  </article>
+</section>
+
+<section class="panel table-panel">
+  <p class="eyebrow">Report Table</p>
+  <div class="report-table">
+    <div class="report-row report-row--head">
+      <span>Date</span>
+      <span>Type</span>
+      <span>Description</span>
+      <span>Amount</span>
+      <span>Status</span>
+    </div>
+    @for (row of reports(); track row.description) {
+      <div class="report-row">
+        <span>{{ row.date }}</span>
+        <span>{{ row.type }}</span>
+        <span>{{ row.description }}</span>
+        <strong>{{ row.amount }}</strong>
+        <b>{{ row.status }}</b>
+      </div>
+    } @empty {
+      <div class="report-row">
+        <span>Today</span>
+        <span>No Data</span>
+        <span>Record transactions to generate reports.</span>
+        <strong>₹0</strong>
+        <b>Waiting</b>
+      </div>
+    }
+  </div>
+</section>

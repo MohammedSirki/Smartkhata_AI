@@ -1,0 +1,11 @@
+<nav class="site-nav" [class.site-nav--compact]="compact()" aria-label="Primary navigation">
+  <a class="brand" routerLink="/">{{ content.brand }}</a>
+
+  <div class="nav-links">
+    @for (link of content.navLinks; track link.href) {
+      <a [href]="link.href" [class.active]="activeSection() === link.href">{{ link.label }}</a>
+    }
+  </div>
+
+  <a class="nav-action" routerLink="/auth">Start Free</a>
+</nav>

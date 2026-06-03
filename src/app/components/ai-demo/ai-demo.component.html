@@ -1,0 +1,43 @@
+<section #demoSection class="ai-demo" id="ai-demo" aria-labelledby="ai-demo-title">
+  <div class="ai-demo__grid">
+    <div class="ai-demo__copy">
+      <p class="ai-demo__label" data-demo-reveal>AI TRANSACTION ENTRY</p>
+      <h2 id="ai-demo-title" data-demo-reveal>Type like you talk. SmartKhata handles the books.</h2>
+      <p class="ai-demo__description" data-demo-reveal>
+        Enter everyday business activity in simple language and SmartKhata AI turns it into accurate accounting records.
+      </p>
+
+      <ul class="ai-demo__benefits" aria-label="AI transaction entry benefits" data-demo-reveal>
+        @for (benefit of benefits; track benefit) {
+          <li>{{ benefit }}</li>
+        }
+      </ul>
+    </div>
+
+    <article class="demo-card" aria-label="AI transaction demo" data-demo-reveal>
+      <div class="demo-card__header">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div class="demo-card__input" aria-label="Transaction input">
+        <span #typedText></span>
+        <i aria-hidden="true"></i>
+      </div>
+
+      <p class="demo-card__processing" data-processing>Understanding transaction...</p>
+
+      <ul class="demo-card__checks" aria-label="Generated accounting updates">
+        @for (item of checklist; track item) {
+          <li data-check>
+            <span aria-hidden="true">✓</span>
+            {{ item }}
+          </li>
+        }
+      </ul>
+
+      <pre class="demo-card__json" data-json-card><code>{{ jsonPreview }}</code></pre>
+    </article>
+  </div>
+</section>

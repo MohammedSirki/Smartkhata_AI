@@ -1,0 +1,19 @@
+<header class="topbar">
+  <button class="menu-button" type="button" aria-label="Open navigation" (click)="menuClick.emit()">☰</button>
+
+  <label class="search">
+    <span>Search</span>
+    <input type="search" placeholder="Search products, reports, transactions...">
+  </label>
+
+  <div class="topbar-actions">
+    <button class="notify" type="button" aria-label="Notifications">!</button>
+
+    <div class="profile">
+      <span>{{ user()?.businessName || profile().businessName }}</span>
+      <strong>{{ user()?.fullName || profile().ownerName }}</strong>
+    </div>
+
+    <button class="logout" type="button" (click)="logout()">Logout</button>
+  </div>
+</header>

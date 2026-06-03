@@ -1,0 +1,85 @@
+<section class="page-head">
+  <p class="eyebrow">Settings</p>
+  <h1>Settings</h1>
+  <p>Manage business details, preferences, and data controls.</p>
+</section>
+
+<form [formGroup]="form">
+  <section class="settings-card">
+    <p class="eyebrow">Business Profile</p>
+    <div class="form-grid">
+      <label>
+        <span>Owner Name</span>
+        <input formControlName="ownerName">
+      </label>
+      <label>
+        <span>Business Name</span>
+        <input formControlName="businessName">
+      </label>
+      <label>
+        <span>Email</span>
+        <input type="email" formControlName="email">
+      </label>
+      <label>
+        <span>Phone</span>
+        <input formControlName="phone">
+      </label>
+      <label>
+        <span>GST Number</span>
+        <input formControlName="gstNumber">
+      </label>
+    </div>
+  </section>
+
+  <section class="settings-card">
+    <p class="eyebrow">Preferences</p>
+    <div class="form-grid">
+      <label>
+        <span>Currency</span>
+        <select formControlName="currency">
+          <option>INR</option>
+        </select>
+      </label>
+      <label>
+        <span>Language</span>
+        <select formControlName="language">
+          <option>English</option>
+          <option>Hindi</option>
+          <option>Hinglish</option>
+        </select>
+      </label>
+      <label>
+        <span>Theme</span>
+        <select formControlName="theme">
+          <option>Dark</option>
+        </select>
+      </label>
+      <label class="toggle">
+        <input type="checkbox" formControlName="notifications">
+        <span>Notifications</span>
+      </label>
+    </div>
+  </section>
+
+  <section class="settings-card data-card">
+    <p class="eyebrow">Data</p>
+    <div class="data-actions">
+      <button type="button" (click)="backupData()">Backup Data</button>
+      <button type="button" (click)="restoreData()">Restore Data</button>
+      <button class="danger" type="button" (click)="clearAllData()">Clear All Data</button>
+    </div>
+    <textarea
+      placeholder="Backup JSON appears here. Paste backup JSON here to restore."
+      [value]="backupText()"
+      (input)="backupText.set($any($event.target).value)"
+    ></textarea>
+    @if (dataMessage()) {
+      <p class="data-message">{{ dataMessage() }}</p>
+    }
+  </section>
+
+  <div class="footer-actions">
+    <button class="primary" type="button" [disabled]="form.invalid">Save Changes</button>
+    <button type="button" (click)="reset()">Reset</button>
+  </div>
+</form>

@@ -1,0 +1,11 @@
+:host{display:block;background:radial-gradient(circle at 28% 45%,rgba(217,229,63,.13),transparent 26rem),var(--bg)}
+.assistant{padding:clamp(4rem,8vw,8rem) 0}.assistant-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(2rem,5vw,5rem);align-items:center;width:min(1180px,calc(100% - 2rem));margin:0 auto}
+.orb-wrap{display:grid;place-items:center;min-height:420px}.orb{width:min(72vw,320px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 28%,#f4ff7a,var(--primary) 24%,rgba(217,229,63,.28) 48%,rgba(255,255,255,.05) 70%);box-shadow:0 0 80px rgba(217,229,63,.34),inset -22px -30px 70px rgba(0,0,0,.58);transition:filter .22s,box-shadow .22s,transform .22s}
+.orb--answering{filter:saturate(1.35);box-shadow:0 0 120px rgba(217,229,63,.55),inset -22px -30px 70px rgba(0,0,0,.5)}
+.copy>p{margin:0 0 1rem;color:var(--primary);font-size:.78rem;font-weight:800;letter-spacing:.14em}
+h2{margin:0;color:var(--text);font-family:"Space Grotesk",Inter,sans-serif;font-size:clamp(2.3rem,4.8vw,4.6rem);line-height:.98}.copy>span{display:block;margin:1.2rem 0 0;color:var(--muted);font-size:1.05rem;line-height:1.7}
+.chat-list{display:grid;gap:1rem;margin-top:1.6rem}.chat-list article{padding:1rem;border:1px solid var(--border);border-radius:8px;background:rgba(16,16,16,.78);backdrop-filter:blur(20px)}
+.chat-list article.active{border-color:rgba(217,229,63,.42);box-shadow:0 0 42px rgba(217,229,63,.09)}button{width:100%;padding:0;border:0;background:transparent;color:var(--muted);text-align:left;line-height:1.55;cursor:pointer}button span{display:block;color:rgba(217,229,63,.82);font-size:.78rem;font-weight:800;letter-spacing:.08em}
+.chat-list p{margin:.8rem 0 0;color:var(--muted);line-height:1.55}.typing{color:var(--primary)!important}.typing::after{content:"";display:inline-block;width:1.2em;animation:dots 1s steps(4,end) infinite}.chat-list strong{display:block;margin-top:.8rem;white-space:pre-line;color:var(--text);font-family:"Space Grotesk",Inter,sans-serif}
+@keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%,100%{content:"..."}}
+@media(max-width:900px){.assistant-grid{grid-template-columns:1fr}.orb-wrap{min-height:300px;order:2}}

@@ -1,0 +1,12 @@
+<div class="layout">
+  <app-sidebar [open]="sidebarOpen()" (closeSidebar)="sidebarOpen.set(false)" />
+
+  <div class="layout__body">
+    <app-topbar (menuClick)="sidebarOpen.set(true)" />
+    <main class="layout__content">
+      <router-outlet />
+    </main>
+  </div>
+
+  <app-ai-core-assistant />
+</div>

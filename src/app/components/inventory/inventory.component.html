@@ -1,0 +1,26 @@
+<section #section class="inventory" id="inventory" aria-labelledby="inventory-title">
+  <div class="inventory-grid">
+    <div class="copy">
+      <p data-reveal>SMART INVENTORY</p>
+      <h2 id="inventory-title" data-reveal>Inventory that updates itself.</h2>
+      <span data-reveal>Every purchase and sale automatically updates your stock levels without manual tracking.</span>
+      <ul data-reveal>
+        @for (feature of features; track feature) { <li>{{ feature }}</li> }
+      </ul>
+    </div>
+    <div class="stock-grid">
+      @for (item of items; track item.name) {
+        <article class="stock-card" [class.warn]="item.status !== 'Healthy'" [class.critical]="item.status === 'Critical'" data-reveal>
+          <p>{{ item.name }}</p>
+          <strong>Stock: {{ item.stock }}</strong>
+          <div class="stock-trend" aria-hidden="true">
+            @for (bar of item.trend; track $index) {
+              <i data-stock-bar [style.height.%]="bar"></i>
+            }
+          </div>
+          <span>{{ item.status }}</span>
+        </article>
+      }
+    </div>
+  </div>
+</section>

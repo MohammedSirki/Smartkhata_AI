@@ -1,0 +1,42 @@
+<section class="assistant-layout">
+  <aside class="assistant-nav" aria-label="Assistant categories">
+    @for (item of navItems; track item) {
+      <button type="button">{{ item }}</button>
+    }
+  </aside>
+
+  <article class="assistant-chat">
+    <header>
+      <div>
+        <p class="eyebrow">AI Assistant</p>
+        <h1>SmartKhata AI Assistant</h1>
+      </div>
+      <span>AI Core Online</span>
+    </header>
+
+    <div class="prompt-grid" aria-label="Suggested prompts">
+      @for (prompt of prompts; track prompt) {
+        <button class="prompt-chip" type="button" (click)="sendPrompt(prompt)">{{ prompt }}</button>
+      }
+    </div>
+
+    <div class="chat-history" #history>
+      @for (message of messages(); track $index) {
+        <div class="message message--{{ message.role }}">
+          <p>{{ message.text }}</p>
+        </div>
+      }
+
+      @if (thinking()) {
+        <div class="message message--ai typing" aria-live="polite">
+          <i></i><i></i><i></i>
+        </div>
+      }
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="sendPrompt()">
+      <input formControlName="prompt" placeholder="Ask SmartKhata anything about your business...">
+      <button type="submit" [disabled]="form.invalid || thinking()">Send</button>
+    </form>
+  </article>
+</section>

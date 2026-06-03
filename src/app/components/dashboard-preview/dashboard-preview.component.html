@@ -1,0 +1,53 @@
+<section #dashboardSection class="dashboard-preview" id="dashboard-preview" aria-labelledby="dashboard-preview-title">
+  <div class="dashboard-preview__grid">
+    <div class="dashboard-preview__copy">
+      <p class="dashboard-preview__label" data-dashboard-reveal>YOUR COMMAND CENTER</p>
+      <h2 id="dashboard-preview-title" data-dashboard-reveal>
+        Everything at a glance. Nothing lost in the numbers.
+      </h2>
+      <p class="dashboard-preview__description" data-dashboard-reveal>
+        SmartKhata gives you a real-time view of revenue, expenses, profit, inventory, and recent transactions — without
+        spreadsheets or manual calculations.
+      </p>
+    </div>
+
+    <div class="dashboard-preview__mockup" data-dashboard-reveal aria-label="SmartKhata dashboard preview">
+      <div class="dashboard-phone">
+        <div class="dashboard-phone__top">
+          <span>SmartKhata</span>
+          <strong>Live</strong>
+        </div>
+
+        <div class="dashboard-phone__metrics">
+          @for (metric of metricCards; track metric.label) {
+            <article class="metric-card" data-dashboard-reveal>
+              <p>{{ metric.label }}</p>
+              <strong
+                data-counter
+                [attr.data-value]="metric.value"
+                [attr.data-prefix]="metric.prefix"
+                [attr.data-suffix]="metric.suffix"
+              >{{ metric.prefix }}0{{ metric.suffix }}</strong>
+            </article>
+          }
+        </div>
+
+        <section class="transactions-card" data-dashboard-reveal aria-label="Recent transactions">
+          <div class="transactions-card__header">
+            <h3>Recent Transactions</h3>
+            <span>Today</span>
+          </div>
+
+          <ul>
+            @for (transaction of transactions; track transaction.label) {
+              <li data-transaction>
+                <span>{{ transaction.label }}</span>
+                <strong>{{ transaction.value }}</strong>
+              </li>
+            }
+          </ul>
+        </section>
+      </div>
+    </div>
+  </div>
+</section>

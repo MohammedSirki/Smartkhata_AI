@@ -1,0 +1,24 @@
+<aside class="sidebar" [class.sidebar--open]="open" aria-label="Application navigation">
+  <a class="brand" routerLink="/app/dashboard" (click)="closeSidebar.emit()">
+    <img src="assets/logo/logo.png" alt="SmartKhata AI" width="38" height="38">
+    <span>SmartKhata AI</span>
+  </a>
+
+  <nav>
+    @for (item of navItems; track item.path) {
+      <a
+        [routerLink]="item.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeSidebar.emit()"
+      >
+        <span class="icon">{{ item.icon }}</span>
+        <span>{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+</aside>
+
+@if (open) {
+  <button class="backdrop" type="button" aria-label="Close navigation" (click)="closeSidebar.emit()"></button>
+}
