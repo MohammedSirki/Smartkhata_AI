@@ -31,6 +31,8 @@ export class Login implements AfterViewInit {
   });
 
   ngAfterViewInit(): void {
+    void this.setupGoogleButton();
+
     if (!this.isBrowser || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return;
     }
@@ -82,5 +84,25 @@ export class Login implements AfterViewInit {
   protected showError(controlName: 'email' | 'password'): boolean {
     const control = this.form.controls[controlName];
     return control.invalid && (control.touched || this.submitted());
+  }
+
+  private async setupGoogleButton(): Promise<void> {
+    try {
+      await this.auth.renderGoogleButton('google-login-button', {
+        onCredential: () => {
+          this.loading.set(true);
+          this.authError.set('');
+        },
+        onError: (error) => {
+          const message = this.auth.authErrorMessage(error);
+          this.loading.set(false);
+          this.authError.set(message);
+          this.toast.error(message);
+        },
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Google sign-in is unavailable.';
+      this.authError.set(message);
+    }
   }
 }

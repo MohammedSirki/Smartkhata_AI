@@ -36,6 +36,8 @@ export class Register implements AfterViewInit {
   );
 
   ngAfterViewInit(): void {
+    void this.setupGoogleButton();
+
     if (!this.isBrowser || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return;
     }
@@ -98,5 +100,25 @@ export class Register implements AfterViewInit {
     const confirmPassword = control.get('confirmPassword')?.value as string | undefined;
 
     return password && confirmPassword && password !== confirmPassword ? { passwordMismatch: true } : null;
+  }
+
+  private async setupGoogleButton(): Promise<void> {
+    try {
+      await this.auth.renderGoogleButton('google-register-button', {
+        onCredential: () => {
+          this.loading.set(true);
+          this.authError.set('');
+        },
+        onError: (error) => {
+          const message = this.auth.authErrorMessage(error);
+          this.loading.set(false);
+          this.authError.set(message);
+          this.toast.error(message);
+        },
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Google sign-in is unavailable.';
+      this.authError.set(message);
+    }
   }
 }

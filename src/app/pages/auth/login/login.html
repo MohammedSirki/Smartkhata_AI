@@ -55,7 +55,7 @@
       <button class="primary-action" type="submit" [disabled]="loading()">
         {{ loading() ? 'Signing in...' : 'Sign In' }}
       </button>
-      <button class="secondary-action" type="button">Continue with Google</button>
+      <div class="google-action" id="google-login-button" aria-label="Continue with Google"></div>
 
       <p class="switch-copy">Don't have an account? <a routerLink="/auth/register">Create Account</a></p>
     </form>

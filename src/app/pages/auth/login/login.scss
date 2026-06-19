@@ -183,6 +183,18 @@ button {
   color: var(--text);
 }
 
+.google-action {
+  width: 100%;
+  min-height: 52px;
+  display: grid;
+  place-items: center;
+}
+
+.google-action > div,
+.google-action iframe {
+  width: 100% !important;
+}
+
 .switch-copy {
   margin: 0;
   text-align: center;

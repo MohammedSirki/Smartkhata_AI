@@ -21,6 +21,17 @@ const userSchema = new mongoose.Schema(
       minlength: 8,
       select: false,
     },
+    authProvider: {
+      type: String,
+      enum: ['local', 'google'],
+      default: 'local',
+    },
+    googleId: {
+      type: String,
+      trim: true,
+      unique: true,
+      sparse: true,
+    },
     business: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Business',

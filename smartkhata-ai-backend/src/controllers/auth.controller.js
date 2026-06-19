@@ -1,6 +1,12 @@
+const crypto = require('crypto');
+
+const { OAuth2Client } = require('google-auth-library');
+
 const Business = require('../models/Business');
 const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
+
+const googleClient = new OAuth2Client();
 
 const sendAuthResponse = (res, user, statusCode = 200) => {
   const businessName = user.business?.businessName || '';
@@ -90,6 +96,96 @@ const login = async (req, res, next) => {
   }
 };
 
+const googleLogin = async (req, res, next) => {
+  try {
+    const { credential } = req.body;
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+
+    if (!clientId) {
+      return res.status(500).json({
+        success: false,
+        message: 'Google sign-in is not configured on the server.',
+      });
+    }
+
+    if (!credential) {
+      return res.status(400).json({
+        success: false,
+        message: 'Google credential is required.',
+      });
+    }
+
+    const ticket = await googleClient.verifyIdToken({
+      idToken: credential,
+      audience: clientId,
+    });
+    const payload = ticket.getPayload();
+
+    if (!payload?.sub || !payload?.email || payload.email_verified !== true) {
+      return res.status(401).json({
+        success: false,
+        message: 'Google account could not be verified.',
+      });
+    }
+
+    const email = payload.email.toLowerCase();
+    let user = await User.findOne({
+      $or: [{ googleId: payload.sub }, { email }],
+    }).populate('business');
+
+    if (user) {
+      if (!user.googleId) {
+        user.googleId = payload.sub;
+      }
+
+      if (user.authProvider !== 'google') {
+        user.authProvider = 'google';
+      }
+
+      if (!user.business) {
+        const business = await Business.create({
+          owner: user._id,
+          businessName: `${user.fullName}'s Business`,
+        });
+        user.business = business._id;
+      }
+
+      await user.save();
+      await user.populate('business');
+
+      return sendAuthResponse(res, user);
+    }
+
+    user = await User.create({
+      fullName: payload.name || email.split('@')[0],
+      email,
+      password: crypto.randomBytes(24).toString('hex'),
+      authProvider: 'google',
+      googleId: payload.sub,
+    });
+
+    const business = await Business.create({
+      owner: user._id,
+      businessName: `${user.fullName}'s Business`,
+    });
+
+    user.business = business._id;
+    await user.save();
+    await user.populate('business');
+
+    return sendAuthResponse(res, user, 201);
+  } catch (error) {
+    if (error.message?.includes('Wrong recipient')) {
+      return res.status(401).json({
+        success: false,
+        message: 'Google credential is not valid for this app.',
+      });
+    }
+
+    return next(error);
+  }
+};
+
 const getMe = async (req, res) => {
   return res.json({
     success: true,
@@ -105,6 +201,7 @@ const getMe = async (req, res) => {
 
 module.exports = {
   getMe,
+  googleLogin,
   login,
   register,
 };
