@@ -4,11 +4,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import gsap from 'gsap';
 
 import { AccountingStateService } from '../../services/accounting-state.service';
-import { MockAiService } from '../../services/mock-ai.service';
+import { ToastService } from '../../services/toast.service';
 
 interface ChatMessage {
   role: 'user' | 'ai';
   text: string;
+  answeredBy?: 'groq' | 'fallback';
 }
 
 @Component({
@@ -22,7 +23,7 @@ export class Assistant implements AfterViewInit {
 
   private readonly fb = inject(FormBuilder);
   private readonly accounting = inject(AccountingStateService);
-  private readonly mockAi = inject(MockAiService);
+  private readonly toast = inject(ToastService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
 
@@ -39,7 +40,7 @@ export class Assistant implements AfterViewInit {
     prompt: ['', Validators.required],
   });
   protected readonly messages = signal<ChatMessage[]>([
-    { role: 'ai', text: 'Ask me about profit, inventory, GST, reports, or expenses. I will use mock business data for now.' },
+    { role: 'ai', text: 'Ask SmartKhata about your business.' },
   ]);
 
   ngAfterViewInit(): void {
@@ -68,14 +69,26 @@ export class Assistant implements AfterViewInit {
     this.thinking.set(true);
     this.scrollToBottom();
 
-    window.setTimeout(() => {
-      this.messages.update((messages) => [
-        ...messages,
-        { role: 'ai', text: this.mockAi.respond(cleanPrompt, this.accounting.assistantContext()) },
-      ]);
-      this.thinking.set(false);
-      this.scrollToBottom();
-    }, 850);
+    this.accounting.askAssistant(cleanPrompt).subscribe({
+      next: (response) => {
+        this.messages.update((messages) => [...messages, { role: 'ai', text: response.reply, answeredBy: response.answeredBy }]);
+        this.thinking.set(false);
+        this.scrollToBottom();
+      },
+      error: (error) => {
+        const message = this.errorMessage(error);
+        this.messages.update((messages) => [...messages, { role: 'ai', text: message }]);
+        this.thinking.set(false);
+        this.toast.error(message);
+        this.scrollToBottom();
+      },
+    });
+  }
+
+  private errorMessage(error: unknown): string {
+    return typeof error === 'object' && error !== null && 'error' in error
+      ? ((error as { error?: { message?: string } }).error?.message ?? 'SmartKhata could not answer right now.')
+      : 'SmartKhata could not answer right now.';
   }
 
   private scrollToBottom(): void {

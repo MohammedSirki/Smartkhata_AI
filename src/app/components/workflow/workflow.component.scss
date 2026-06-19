@@ -10,7 +10,7 @@
 }
 
 .workflow__header,
-.workflow__timeline {
+.workflow__actions {
   width: min(1180px, calc(100% - 2rem));
   margin: 0 auto;
 }
@@ -45,26 +45,15 @@ h2 {
   line-height: 1.75;
 }
 
-.workflow__timeline {
-  position: relative;
+.workflow__actions {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0.9rem;
   margin-top: clamp(2.5rem, 5vw, 4rem);
 }
 
-.workflow__line {
-  position: absolute;
-  top: 2.1rem;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(217, 229, 63, 0.78), transparent);
-}
-
 .workflow-card {
-  position: relative;
-  min-height: 240px;
+  min-height: 150px;
   padding: 1.1rem;
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -74,25 +63,17 @@ h2 {
   backdrop-filter: blur(22px);
 }
 
-.workflow-card::before {
-  content: "";
-  position: absolute;
-  top: 1.75rem;
-  left: 1.1rem;
-  width: 0.75rem;
-  height: 0.75rem;
+.workflow-card__check {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 1.1rem;
   border-radius: 999px;
   background: var(--primary);
-  box-shadow: 0 0 24px rgba(217, 229, 63, 0.8);
-}
-
-.workflow-card__number {
-  display: block;
-  margin: 2.2rem 0 1.4rem;
-  color: rgba(217, 229, 63, 0.78);
-  font-size: 0.86rem;
+  color: #101200;
+  font-size: 1rem;
   font-weight: 800;
-  letter-spacing: 0.14em;
 }
 
 .workflow-card h3 {
@@ -100,12 +81,6 @@ h2 {
   color: var(--text);
   font-size: 1.25rem;
   line-height: 1.2;
-}
-
-.workflow-card p {
-  margin: 1rem 0 0;
-  color: var(--muted);
-  line-height: 1.6;
 }
 
 @media (max-width: 900px) {
@@ -117,25 +92,19 @@ h2 {
     margin-left: 0;
   }
 
-  .workflow__timeline {
-    grid-template-columns: 1fr;
+  .workflow__actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
-    padding-left: 1rem;
-  }
-
-  .workflow__line {
-    top: 0;
-    bottom: 0;
-    left: 1rem;
-    right: auto;
-    width: 1px;
-    height: auto;
-    background: linear-gradient(180deg, rgba(217, 229, 63, 0.78), transparent);
-    transform-origin: top center !important;
   }
 
   .workflow-card {
     min-height: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .workflow__actions {
+    grid-template-columns: 1fr;
   }
 }
 

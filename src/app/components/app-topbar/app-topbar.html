@@ -10,8 +10,8 @@
     <button class="notify" type="button" aria-label="Notifications">!</button>
 
     <div class="profile">
-      <span>{{ user()?.businessName || profile().businessName }}</span>
-      <strong>{{ user()?.fullName || profile().ownerName }}</strong>
+      <span>{{ user()?.businessName || 'Business profile' }}</span>
+      <strong>{{ user()?.fullName || 'Account user' }}</strong>
     </div>
 
     <button class="logout" type="button" (click)="logout()">Logout</button>

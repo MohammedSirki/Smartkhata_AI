@@ -12,6 +12,11 @@ const transactionSchema = new mongoose.Schema(
       ref: 'Business',
       required: true,
     },
+    rawText: {
+      type: String,
+      trim: true,
+      default: '',
+    },
     type: {
       type: String,
       enum: ['sale', 'purchase', 'expense', 'return'],
@@ -49,5 +54,8 @@ const transactionSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
+
+transactionSchema.index({ user: 1, createdAt: -1 });
+transactionSchema.index({ business: 1, createdAt: -1 });
 
 module.exports = mongoose.model('Transaction', transactionSchema);

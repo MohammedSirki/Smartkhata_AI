@@ -10,8 +10,8 @@ export const siteContent = {
   brand: 'SmartKhata AI',
   navLinks: [
     { label: 'Demo', href: '#ai-demo' },
-    { label: 'Workflow', href: '#workflow' },
-    { label: 'Analytics', href: '#analytics' },
+    { label: 'What it does', href: '#workflow' },
+    { label: 'Insights', href: '#analytics' },
     { label: 'Pricing', href: '#pricing' },
   ],
   sections: {
@@ -38,17 +38,17 @@ export const siteContent = {
     },
     workflow: {
       id: 'workflow',
-      label: 'Workflow',
+      label: 'What it does',
       eyebrow: 'Process',
-      title: 'Workflow placeholder',
-      description: 'Reserved area for the operating workflow.',
+      title: 'What SmartKhata can do',
+      description: 'Simple business actions SmartKhata helps with.',
     },
     analytics: {
       id: 'analytics',
-      label: 'Analytics',
+      label: 'Insights',
       eyebrow: 'Insights',
-      title: 'Analytics placeholder',
-      description: 'Reserved area for charts, metrics, and reporting blocks.',
+      title: 'AI business insights',
+      description: 'Plain-language business guidance.',
     },
     inventory: {
       id: 'inventory',

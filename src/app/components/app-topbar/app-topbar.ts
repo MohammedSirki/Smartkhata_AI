@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Output, inject, signal } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
-import { MockDataService } from '../../services/mock-data.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-topbar',
@@ -14,13 +14,13 @@ export class AppTopbar {
 
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly mockData = inject(MockDataService);
+  private readonly toast = inject(ToastService);
 
-  protected readonly profile = signal(this.mockData.getUserProfile());
-  protected readonly user = signal(this.auth.getCurrentUser());
+  protected readonly user = this.auth.currentUser;
 
   logout(): void {
     this.auth.logout();
-    void this.router.navigate(['/']);
+    this.toast.success('Logout success');
+    void this.router.navigate(['/auth/login']);
   }
 }

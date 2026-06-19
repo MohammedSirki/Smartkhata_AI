@@ -14,7 +14,7 @@
     <ul>
       <li>Instant dashboard with revenue, profit, inventory, and transactions</li>
       <li>Global AI Core available only inside authenticated app pages</li>
-      <li>Mock local auth today, backend-ready structure tomorrow</li>
+      <li>Backend JWT auth connected to your SmartKhata account</li>
     </ul>
   </section>
 
@@ -26,7 +26,7 @@
 
       <label class="field">
         <span>Full Name</span>
-        <input type="text" formControlName="fullName" placeholder="Aarav Mehta" autocomplete="name">
+        <input type="text" formControlName="fullName" placeholder="Your full name" autocomplete="name">
         @if (showError('fullName')) {
           <small>Full name is required.</small>
         }
@@ -34,7 +34,7 @@
 
       <label class="field">
         <span>Business Name</span>
-        <input type="text" formControlName="businessName" placeholder="Mehta Traders" autocomplete="organization">
+        <input type="text" formControlName="businessName" placeholder="Your business name" autocomplete="organization">
         @if (showError('businessName')) {
           <small>Business name is required.</small>
         }
@@ -66,7 +66,13 @@
         }
       </label>
 
-      <button class="primary-action" type="submit">Create Account</button>
+      @if (authError()) {
+        <div class="auth-error" role="alert">{{ authError() }}</div>
+      }
+
+      <button class="primary-action" type="submit" [disabled]="loading()">
+        {{ loading() ? 'Creating account...' : 'Create Account' }}
+      </button>
       <button class="secondary-action" type="button">Continue with Google</button>
 
       <p class="switch-copy">Already have an account? <a routerLink="/auth/login">Sign In</a></p>

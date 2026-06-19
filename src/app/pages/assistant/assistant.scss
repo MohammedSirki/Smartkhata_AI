@@ -116,6 +116,14 @@ header span {
   line-height: 1.5;
 }
 
+.message > span {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
 .message--user {
   align-self: flex-end;
   background: var(--primary);

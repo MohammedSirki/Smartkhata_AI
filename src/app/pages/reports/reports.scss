@@ -80,6 +80,12 @@ button {
   padding: 0.8rem;
 }
 
+.skeleton {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.045));
+  background-size: 240% 100%;
+  animation: shimmer 1.2s infinite linear;
+}
+
 .report-card span,
 .report-row span {
   color: var(--muted);
@@ -102,18 +108,10 @@ button {
   padding: 0.85rem;
 }
 
-.mini-bars {
-  height: 180px;
-  display: flex;
-  align-items: end;
-  gap: 0.55rem;
-}
-
-.mini-bars span {
-  flex: 1;
-  height: var(--h);
-  border-radius: 8px 8px 0 0;
-  background: linear-gradient(180deg, var(--primary), rgba(155, 170, 37, 0.45));
+.simple-copy {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
 }
 
 .sections {
@@ -146,6 +144,12 @@ button {
 .report-row b {
   color: var(--primary);
   font-weight: 600;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -240% 0;
+  }
 }
 
 @media (max-width: 980px) {

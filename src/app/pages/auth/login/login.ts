@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import gsap from 'gsap';
 
 import { AuthService } from '../../../services/auth.service';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -16,10 +17,12 @@ export class Login implements AfterViewInit {
   private readonly fb = inject(FormBuilder);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
 
   protected readonly submitted = signal(false);
+  protected readonly loading = signal(false);
   protected readonly authError = signal('');
   protected readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -60,14 +63,20 @@ export class Login implements AfterViewInit {
     }
 
     const { email, password } = this.form.getRawValue();
-    const success = this.auth.login({ email, password });
+    this.loading.set(true);
 
-    if (!success) {
-      this.authError.set('No matching SmartKhata account was found. Create an account first or check your password.');
-      return;
-    }
-
-    void this.router.navigate(['/app/dashboard']);
+    this.auth.login({ email, password }).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.toast.success('Login success');
+      },
+      error: (error) => {
+        const message = this.auth.authErrorMessage(error);
+        this.loading.set(false);
+        this.authError.set(message);
+        this.toast.error(message);
+      },
+    });
   }
 
   protected showError(controlName: 'email' | 'password'): boolean {

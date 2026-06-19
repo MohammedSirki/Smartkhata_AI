@@ -13,11 +13,6 @@
         <article class="stock-card" [class.warn]="item.status !== 'Healthy'" [class.critical]="item.status === 'Critical'" data-reveal>
           <p>{{ item.name }}</p>
           <strong>Stock: {{ item.stock }}</strong>
-          <div class="stock-trend" aria-hidden="true">
-            @for (bar of item.trend; track $index) {
-              <i data-stock-bar [style.height.%]="bar"></i>
-            }
-          </div>
           <span>{{ item.status }}</span>
         </article>
       }

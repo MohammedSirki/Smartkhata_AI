@@ -6,11 +6,15 @@ const morgan = require('morgan');
 
 const connectDB = require('./config/db');
 const { errorHandler, notFound } = require('./middleware/error.middleware');
+const aiRoutes = require('./routes/ai.routes');
 const assistantRoutes = require('./routes/assistant.routes');
 const authRoutes = require('./routes/auth.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
+const exportRoutes = require('./routes/export.routes');
 const inventoryRoutes = require('./routes/inventory.routes');
+const profileRoutes = require('./routes/profile.routes');
 const reportRoutes = require('./routes/report.routes');
+const systemRoutes = require('./routes/system.routes');
 const transactionRoutes = require('./routes/transaction.routes');
 
 const app = express();
@@ -41,7 +45,11 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/inventory', inventoryRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/export', exportRoutes);
+app.use('/api/system', systemRoutes);
 app.use('/api/assistant', assistantRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/api/ai', aiRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

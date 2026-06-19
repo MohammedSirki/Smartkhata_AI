@@ -13,7 +13,7 @@
 
     <ul>
       <li>AI summaries for revenue, profit, and stock movement</li>
-      <li>Secure local demo authentication for this build phase</li>
+      <li>Secure backend JWT authentication for your workspace</li>
       <li>Designed for fast business owners, not spreadsheet babysitting</li>
     </ul>
   </section>
@@ -52,7 +52,9 @@
         <div class="auth-error" role="alert">{{ authError() }}</div>
       }
 
-      <button class="primary-action" type="submit">Sign In</button>
+      <button class="primary-action" type="submit" [disabled]="loading()">
+        {{ loading() ? 'Signing in...' : 'Sign In' }}
+      </button>
       <button class="secondary-action" type="button">Continue with Google</button>
 
       <p class="switch-copy">Don't have an account? <a routerLink="/auth/register">Create Account</a></p>

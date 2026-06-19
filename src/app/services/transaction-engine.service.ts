@@ -18,9 +18,8 @@ export class TransactionEngineService {
     const quantity = type === 'expense' ? 1 : this.extractQuantity(normalized);
     const item = this.extractItem(normalized, type);
     const amount = this.extractAmount(normalized);
-    const isUnitPrice = /\b(each|per|unit|piece|pc)\b/.test(normalized);
-    const total = type === 'return' ? 0 : isUnitPrice ? amount * quantity : amount;
-    const unitPrice = type === 'return' ? 0 : isUnitPrice ? amount : quantity > 0 ? total / quantity : total;
+    const total = type === 'return' ? 0 : amount;
+    const unitPrice = type === 'return' ? 0 : quantity > 0 ? total / quantity : total;
 
     return {
       type,

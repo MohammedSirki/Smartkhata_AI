@@ -11,6 +11,7 @@ export interface Transaction {
   status: 'Recorded' | 'Updated' | 'Cleared';
   timestamp: string;
   cogs?: number;
+  parsedBy?: 'groq' | 'regex' | 'manual';
 }
 
 export interface ParsedTransaction {

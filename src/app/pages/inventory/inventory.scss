@@ -4,7 +4,7 @@
 
 .page-head,
 .toolbar,
-.product-card > div {
+.product-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -43,11 +43,22 @@ button {
   font-weight: 600;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .actions button:first-child,
 .filters button.active {
   border-color: transparent;
   background: var(--primary);
   color: #101200;
+}
+
+.delete-button {
+  border-color: rgba(255, 156, 156, 0.35);
+  background: rgba(255, 156, 156, 0.1);
+  color: #ffb3b3;
 }
 
 .summary-grid,
@@ -113,6 +124,17 @@ input {
   padding: 0.75rem;
 }
 
+.product-head > div {
+  min-width: 0;
+}
+
+.skeleton {
+  min-height: 126px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.045));
+  background-size: 240% 100%;
+  animation: shimmer 1.2s infinite linear;
+}
+
 .badge {
   padding: 0.25rem 0.45rem;
   border-radius: 8px;
@@ -151,6 +173,12 @@ dd {
 @keyframes pulse {
   50% {
     box-shadow: 0 0 24px rgba(217, 229, 63, 0.22);
+  }
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -240% 0;
   }
 }
 

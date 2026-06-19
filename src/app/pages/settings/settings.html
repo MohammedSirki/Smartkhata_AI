@@ -4,12 +4,32 @@
   <p>Manage business details, preferences, and data controls.</p>
 </section>
 
+@if (loading()) {
+  <section class="settings-card">
+    <p class="eyebrow">Loading</p>
+    <p>Loading profile information...</p>
+  </section>
+}
+
+@if (error()) {
+  <section class="settings-card">
+    <p class="eyebrow">Error</p>
+    <p>{{ error() }}</p>
+  </section>
+}
+
+@if (profileMissing() && !loading() && !error()) {
+  <section class="settings-card">
+    <p>No profile information available</p>
+  </section>
+}
+
 <form [formGroup]="form">
   <section class="settings-card">
     <p class="eyebrow">Business Profile</p>
     <div class="form-grid">
       <label>
-        <span>Owner Name</span>
+        <span>Full Name</span>
         <input formControlName="ownerName">
       </label>
       <label>
@@ -48,16 +68,6 @@
           <option>Hinglish</option>
         </select>
       </label>
-      <label>
-        <span>Theme</span>
-        <select formControlName="theme">
-          <option>Dark</option>
-        </select>
-      </label>
-      <label class="toggle">
-        <input type="checkbox" formControlName="notifications">
-        <span>Notifications</span>
-      </label>
     </div>
   </section>
 
@@ -79,7 +89,9 @@
   </section>
 
   <div class="footer-actions">
-    <button class="primary" type="button" [disabled]="form.invalid">Save Changes</button>
+    <button class="primary" type="button" [disabled]="form.invalid || saving()" (click)="saveChanges()">
+      {{ saving() ? 'Saving...' : 'Save Changes' }}
+    </button>
     <button type="button" (click)="reset()">Reset</button>
   </div>
 </form>

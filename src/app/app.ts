@@ -3,9 +3,11 @@ import { AfterViewInit, Component, HostListener, OnInit, PLATFORM_ID, inject, si
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 
+import { ToastComponent } from './components/toast/toast.component';
+
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ToastComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import gsap from 'gsap';
 
 import { AuthService } from '../../../services/auth.service';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-register',
@@ -16,10 +17,13 @@ export class Register implements AfterViewInit {
   private readonly fb = inject(FormBuilder);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
 
   protected readonly submitted = signal(false);
+  protected readonly loading = signal(false);
+  protected readonly authError = signal('');
   protected readonly form = this.fb.nonNullable.group(
     {
       fullName: ['', Validators.required],
@@ -56,6 +60,7 @@ export class Register implements AfterViewInit {
 
   submit(): void {
     this.submitted.set(true);
+    this.authError.set('');
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -63,8 +68,20 @@ export class Register implements AfterViewInit {
     }
 
     const { confirmPassword: _confirmPassword, ...payload } = this.form.getRawValue();
-    this.auth.register(payload);
-    void this.router.navigate(['/app/dashboard']);
+    this.loading.set(true);
+
+    this.auth.register(payload).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.toast.success('Register success');
+      },
+      error: (error) => {
+        const message = this.auth.authErrorMessage(error);
+        this.loading.set(false);
+        this.authError.set(message);
+        this.toast.error(message);
+      },
+    });
   }
 
   protected showError(controlName: 'fullName' | 'businessName' | 'email' | 'password' | 'confirmPassword'): boolean {

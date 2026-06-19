@@ -5,7 +5,8 @@
   </div>
   <div class="actions">
     <button type="button">Add Product</button>
-    <button type="button" (click)="exportInventory()">Export</button>
+    <button type="button" (click)="exportInventory('csv')">Export CSV</button>
+    <button type="button" (click)="exportInventory('json')">Export JSON</button>
   </div>
 </section>
 
@@ -40,11 +41,34 @@
 </section>
 
 <section class="product-grid" aria-label="Inventory products">
-  @for (item of filteredItems(); track item.name) {
-    <article class="product-card product-card--{{ item.status.toLowerCase() }}">
+  @if (loading()) {
+    @for (item of [1, 2, 3]; track item) {
+      <article class="product-card skeleton"></article>
+    }
+  } @else if (error()) {
+    <article class="product-card product-card--critical">
       <div>
-        <h2>{{ item.name }}</h2>
-        <span class="badge">{{ item.status }}</span>
+        <h2>{{ error() }}</h2>
+        <span class="badge">Error</span>
+      </div>
+    </article>
+  } @else {
+    @for (item of filteredItems(); track item.name) {
+    <article class="product-card product-card--{{ item.status.toLowerCase() }}">
+      <div class="product-head">
+        <div>
+          <h2>{{ item.name }}</h2>
+          <span class="badge">{{ item.status }}</span>
+        </div>
+        <button
+          type="button"
+          class="delete-button"
+          [disabled]="!!deletingId()"
+          (click)="deleteItem(item)"
+          [attr.aria-label]="'Delete ' + item.name"
+        >
+          {{ deletingId() === item.id ? 'Deleting...' : 'Delete' }}
+        </button>
       </div>
       <dl>
         <div><dt>Stock</dt><dd>{{ item.stock }}</dd></div>
@@ -53,15 +77,16 @@
         <div><dt>Value</dt><dd>{{ item.stock * item.costPrice | currency: 'INR':'symbol':'1.0-0' }}</dd></div>
       </dl>
     </article>
-  } @empty {
-    <article class="product-card">
-      <div>
-        <h2>No inventory yet</h2>
-        <span class="badge">Ready</span>
-      </div>
-      <dl>
-        <div><dt>Next step</dt><dd>Record a purchase to create stock.</dd></div>
-      </dl>
-    </article>
+    } @empty {
+      <article class="product-card">
+        <div>
+          <h2>No inventory found</h2>
+          <span class="badge">Ready</span>
+        </div>
+        <dl>
+          <div><dt>Next step</dt><dd>No inventory yet. Create your first purchase transaction from the dashboard.</dd></div>
+        </dl>
+      </article>
+    }
   }
 </section>

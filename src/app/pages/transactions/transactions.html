@@ -9,6 +9,28 @@
   </div>
 </section>
 
+@if (pendingDelete(); as transaction) {
+  <section class="confirm-backdrop" role="dialog" aria-modal="true" aria-labelledby="delete-title">
+    <article class="confirm-modal">
+      <p class="eyebrow">Delete Transaction?</p>
+      <h2 id="delete-title">{{ transaction.description }}</h2>
+      <p>This action will affect:</p>
+      <ul>
+        <li>Revenue</li>
+        <li>Profit</li>
+        <li>Inventory</li>
+        <li>Reports</li>
+      </ul>
+      <div class="confirm-actions">
+        <button type="button" (click)="cancelDelete()">Cancel</button>
+        <button class="danger" type="button" [disabled]="deletingId() === transaction.id" (click)="confirmDelete()">
+          {{ deletingId() === transaction.id ? 'Deleting...' : 'Delete' }}
+        </button>
+      </div>
+    </article>
+  </section>
+}
+
 <section class="toolbar">
   <input type="search" placeholder="Search transactions..." [ngModel]="query()" (ngModelChange)="query.set($event)">
   <div class="filters" aria-label="Transaction filters">
@@ -32,24 +54,42 @@
         <span>Type</span>
         <span>Description</span>
         <span>Amount</span>
-        <span>Status</span>
+        <span>Action</span>
       </div>
-      @for (transaction of transactions(); track transaction.id) {
-        <button class="transaction-row" type="button" (click)="selectTransaction(transaction)">
+      @if (loading()) {
+        @for (item of [1, 2, 3]; track item) {
+          <div class="transaction-row skeleton"></div>
+        }
+      } @else if (error()) {
+        <div class="transaction-row">
+          <span>Error</span>
+          <b>Failed</b>
+          <span>{{ error() }}</span>
+          <strong>{{ currency(0) }}</strong>
+          <b>Retry</b>
+        </div>
+      } @else {
+        @for (transaction of transactions(); track transaction.id) {
+        <div class="transaction-row">
+          <button class="row-main" type="button" (click)="selectTransaction(transaction)">
           <span>{{ formatDate(transaction.timestamp) }}</span>
           <b>{{ transaction.type }}</b>
           <span>{{ transaction.description }}</span>
           <strong>{{ currency(transaction.total) }}</strong>
-          <b>{{ transaction.status }}</b>
-        </button>
-      } @empty {
-        <div class="transaction-row">
-          <span>No date</span>
-          <b>Ready</b>
-          <span>No transactions found.</span>
-          <strong>{{ currency(0) }}</strong>
-          <b>Waiting</b>
+          </button>
+          <button class="delete-action" type="button" (click)="deleteTransaction(transaction)" [disabled]="deletingId() === transaction.id">
+            {{ deletingId() === transaction.id ? 'Deleting...' : 'Delete' }}
+          </button>
         </div>
+        } @empty {
+          <div class="transaction-row">
+            <span>No date</span>
+            <b>Ready</b>
+            <span>No transactions found.</span>
+            <strong>{{ currency(0) }}</strong>
+            <b>Waiting</b>
+          </div>
+        }
       }
     </div>
   </article>

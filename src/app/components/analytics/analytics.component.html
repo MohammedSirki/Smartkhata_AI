@@ -1,30 +1,17 @@
 <section #section class="analytics" id="analytics" aria-labelledby="analytics-title">
   <div class="section-head">
-    <p data-reveal>BUSINESS ANALYTICS</p>
-    <h2 id="analytics-title" data-reveal>See the story behind every rupee.</h2>
-    <span data-reveal>Track revenue, expenses, profits, trends, and growth with powerful real-time analytics.</span>
+    <p data-reveal>AI BUSINESS INSIGHTS</p>
+    <h2 id="analytics-title" data-reveal>Simple answers for daily decisions.</h2>
+    <span data-reveal>SmartKhata explains what matters in plain language, without complicated business screens.</span>
   </div>
 
   <div class="analytics-grid">
-    @for (chart of charts; track chart.title) {
-      <article class="chart-card" data-reveal>
-        <div class="card-top">
-          <h3>{{ chart.title }}</h3>
-          <strong data-count [attr.data-count]="chart.value" [attr.data-suffix]="chart.suffix">0{{ chart.suffix }}</strong>
-        </div>
-        <div class="bars" aria-hidden="true">
-          @for (bar of chart.bars; track $index) {
-            <i data-bar [style.height.%]="bar"></i>
-          }
-        </div>
-        <p>Monthly comparison with AI trend detection.</p>
+    @for (insight of insights; track insight.title) {
+      <article class="insight-card" data-reveal>
+        <p>AI INSIGHT</p>
+        <h3>{{ insight.title }}</h3>
+        <span>{{ insight.text }}</span>
       </article>
     }
-
-    <article class="insight-card" data-reveal>
-      <p>AI INSIGHT</p>
-      <h3>Revenue increased 18% compared to last month.</h3>
-      <span>SmartKhata recommends restocking chargers before weekend demand peaks.</span>
-    </article>
   </div>
 </section>

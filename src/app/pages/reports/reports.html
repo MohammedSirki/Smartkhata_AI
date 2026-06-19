@@ -4,9 +4,9 @@
     <h1>Reports</h1>
   </div>
   <div class="actions">
-    <button type="button">Download PDF</button>
-    <button type="button" (click)="exportReports()">Export Excel</button>
-    <button type="button">Share with CA</button>
+    <button type="button" (click)="exportPdf()">Export PDF</button>
+    <button type="button" (click)="exportReports('csv')">Export CSV</button>
+    <button type="button" (click)="exportReports('json')">Export JSON</button>
   </div>
 </section>
 
@@ -19,25 +19,25 @@
 </div>
 
 <section class="report-grid" aria-label="Report summary">
-  @for (card of reportCards(); track card.label) {
-    <article class="report-card">
-      <span>{{ card.label }}</span>
-      <strong>{{ card.value }}</strong>
-    </article>
+  @if (loading()) {
+    @for (item of [1, 2, 3, 4, 5, 6]; track item) {
+      <article class="report-card skeleton"></article>
+    }
+  } @else {
+    @for (card of reportCards(); track card.label) {
+      <article class="report-card">
+        <span>{{ card.label }}</span>
+        <strong>{{ card.value }}</strong>
+      </article>
+    }
   }
 </section>
 
 <section class="content-grid">
   <article class="panel">
     <p class="eyebrow">{{ activeTab() }} Overview</p>
-    <h2>Sales and expense performance</h2>
-    <div class="mini-bars" aria-label="Mock report chart">
-      <span style="--h: 58%"></span>
-      <span style="--h: 74%"></span>
-      <span style="--h: 46%"></span>
-      <span style="--h: 86%"></span>
-      <span style="--h: 64%"></span>
-    </div>
+    <h2>Business summary</h2>
+    <p class="simple-copy">Use the cards above for totals, then check the table below for each transaction.</p>
   </article>
 
   <article class="panel sections">
@@ -70,7 +70,7 @@
       <div class="report-row">
         <span>Today</span>
         <span>No Data</span>
-        <span>Record transactions to generate reports.</span>
+        <span>{{ error() || 'Reports will appear after transactions.' }}</span>
         <strong>₹0</strong>
         <b>Waiting</b>
       </div>

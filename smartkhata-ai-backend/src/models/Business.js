@@ -17,6 +17,11 @@ const businessSchema = new mongoose.Schema(
       trim: true,
       default: '',
     },
+    phone: {
+      type: String,
+      trim: true,
+      default: '',
+    },
     currency: {
       type: String,
       default: 'INR',

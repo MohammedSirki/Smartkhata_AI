@@ -23,6 +23,9 @@
     <div class="chat-history" #history>
       @for (message of messages(); track $index) {
         <div class="message message--{{ message.role }}">
+          @if (message.role === 'ai' && message.answeredBy === 'groq') {
+            <span>AI response</span>
+          }
           <p>{{ message.text }}</p>
         </div>
       }

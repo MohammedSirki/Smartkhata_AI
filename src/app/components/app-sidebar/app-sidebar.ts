@@ -19,8 +19,8 @@ export class AppSidebar {
 
   protected readonly navItems: AppNavItem[] = [
     { label: 'Dashboard', path: '/app/dashboard', icon: 'D' },
-    { label: 'Inventory', path: '/app/inventory', icon: 'I' },
     { label: 'Transactions', path: '/app/transactions', icon: 'T' },
+    { label: 'Inventory', path: '/app/inventory', icon: 'I' },
     { label: 'Reports', path: '/app/reports', icon: 'R' },
     { label: 'AI Assistant', path: '/app/assistant', icon: 'AI' },
     { label: 'Settings', path: '/app/settings', icon: 'S' },
