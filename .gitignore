@@ -51,3 +51,5 @@ node_modules
 dist
 backend/.env
 smartkhata-ai-backend/.env
+
+.vercel
