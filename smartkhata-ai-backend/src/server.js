@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: ['http://localhost:4200', 'http://smart-khata-ai-one.vercel.app'],
+    origin: ['http://localhost:4200', 'https://smart-khata-ai-one.vercel.app'],
     credentials: true,
   }),
 );
