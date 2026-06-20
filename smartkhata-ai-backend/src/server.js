@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: 'http://localhost:4200',
+    origin: ['http://localhost:4200', 'http://smartkhata-henna.vercel.app'],
     credentials: true,
   }),
 );
