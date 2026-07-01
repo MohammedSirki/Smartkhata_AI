@@ -31,9 +31,30 @@
     </div>
 
     <form [formGroup]="form" (ngSubmit)="submitEntry()">
-      <input formControlName="entry" placeholder="Tell SmartKhata what happened...">
+      <div class="voice-entry-field">
+        <input formControlName="entry" placeholder="Tell SmartKhata what happened...">
+        <button
+          class="mic-button"
+          type="button"
+          [class.mic-button--listening]="listening()"
+          [attr.aria-pressed]="listening()"
+          [attr.aria-label]="listening() ? 'Stop voice input' : 'Start voice input'"
+          (click)="toggleVoiceInput()">
+          <svg aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M12 3a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Z"></path>
+            <path d="M5 10v1a7 7 0 0 0 14 0v-1"></path>
+            <path d="M12 18v3"></path>
+            <path d="M8 21h8"></path>
+          </svg>
+        </button>
+      </div>
       <button type="submit">Process</button>
     </form>
+
+    <p class="voice-helper">Speak naturally: Aaj 5 pen beche 10 rupaye ke</p>
+    @if (voiceStatus()) {
+      <p class="voice-status" aria-live="polite">{{ voiceStatus() }}</p>
+    }
 
     <div class="entry-helper">
       <span>Supports: Sales &bull; Purchases &bull; Expenses &bull; Returns &bull; Inventory Updates</span>

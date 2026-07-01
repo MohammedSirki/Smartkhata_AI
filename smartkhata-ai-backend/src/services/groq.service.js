@@ -1,6 +1,6 @@
 const Groq = require('groq-sdk');
 
-const MODEL = process.env.GROQ_MODEL || 'llama-3.1-8b-instant';
+const MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-20b';
 const TRANSACTION_TYPES = ['sale', 'purchase', 'expense', 'return', 'unknown'];
 const PAYMENT_MODES = ['cash', 'upi', 'card', 'bank', 'credit', 'unknown', null];
 

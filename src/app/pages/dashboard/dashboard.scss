@@ -111,6 +111,13 @@ form {
   gap: 0.6rem;
 }
 
+.voice-entry-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42px;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
 input {
   min-height: 38px;
   min-width: 0;
@@ -139,6 +146,53 @@ form button {
   border: 0;
   background: var(--primary);
   color: #101200;
+}
+
+form .mic-button {
+  position: relative;
+  width: 42px;
+  min-height: 38px;
+  padding: 0.5rem;
+  display: inline-grid;
+  place-items: center;
+  overflow: visible;
+  border: 1px solid rgba(217, 229, 63, 0.7);
+  background: #d9e53f;
+  color: #101200;
+  box-shadow: 0 0 18px rgba(217, 229, 63, 0.42);
+}
+
+form .mic-button svg {
+  position: relative;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+form .mic-button--listening::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 1px solid rgba(217, 229, 63, 0.72);
+  border-radius: 10px;
+  animation: mic-pulse 1s infinite ease-out;
+}
+
+.voice-helper,
+.voice-status {
+  margin: 0.55rem 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.voice-status {
+  color: var(--primary);
 }
 
 .entry-helper {
@@ -288,6 +342,13 @@ form button {
   }
 }
 
+@keyframes mic-pulse {
+  to {
+    transform: scale(1.28);
+    opacity: 0;
+  }
+}
+
 @media (max-width: 1000px) {
   .stats-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -303,6 +364,10 @@ form button {
   .result,
   form {
     grid-template-columns: 1fr;
+  }
+
+  .voice-entry-field {
+    grid-template-columns: minmax(0, 1fr) 42px;
   }
 
   .table {

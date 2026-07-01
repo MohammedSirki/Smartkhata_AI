@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Component, OnInit, PLATFORM_ID, computed, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, PLATFORM_ID, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import gsap from 'gsap';
 
@@ -8,13 +8,53 @@ import { AccountingStateService } from '../../services/accounting-state.service'
 import { Transaction } from '../../models/transaction.model';
 import { ToastService } from '../../services/toast.service';
 
+type SpeechRecognitionErrorCode =
+  | 'aborted'
+  | 'audio-capture'
+  | 'bad-grammar'
+  | 'language-not-supported'
+  | 'network'
+  | 'no-speech'
+  | 'not-allowed'
+  | 'phrases-not-supported'
+  | 'service-not-allowed';
+
+interface SpeechRecognitionEventLike extends Event {
+  readonly resultIndex: number;
+  readonly results: SpeechRecognitionResultList;
+}
+
+interface SpeechRecognitionErrorEventLike extends Event {
+  readonly error: SpeechRecognitionErrorCode;
+}
+
+interface SpeechRecognitionLike extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  maxAlternatives: number;
+  onend: (() => void) | null;
+  onerror: ((event: SpeechRecognitionErrorEventLike) => void) | null;
+  onresult: ((event: SpeechRecognitionEventLike) => void) | null;
+  onstart: (() => void) | null;
+  start(): void;
+  stop(): void;
+}
+
+type SpeechRecognitionConstructor = new () => SpeechRecognitionLike;
+
+interface SpeechRecognitionWindow extends Window {
+  SpeechRecognition?: SpeechRecognitionConstructor;
+  webkitSpeechRecognition?: SpeechRecognitionConstructor;
+}
+
 @Component({
   selector: 'app-dashboard',
   imports: [ReactiveFormsModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
-export class Dashboard implements AfterViewInit, OnInit {
+export class Dashboard implements AfterViewInit, OnDestroy, OnInit {
   private readonly auth = inject(AuthService);
   private readonly accounting = inject(AccountingStateService);
   private readonly toast = inject(ToastService);
@@ -37,11 +77,15 @@ export class Dashboard implements AfterViewInit, OnInit {
   protected readonly error = signal('');
   protected readonly purchaseSuggestion = signal('');
   protected readonly helpOpen = signal(false);
+  protected readonly listening = signal(false);
+  protected readonly voiceStatus = signal('');
   protected readonly lastTransactionType = signal('Transaction');
   protected readonly lastTransaction = signal<Transaction | null>(null);
   protected readonly form = this.fb.nonNullable.group({
     entry: ['', Validators.required],
   });
+  private recognition: SpeechRecognitionLike | null = null;
+  private triedHindiFallback = false;
 
   ngOnInit(): void {
     this.accounting.loadAll().subscribe({
@@ -89,6 +133,19 @@ export class Dashboard implements AfterViewInit, OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.stopVoiceInput();
+  }
+
+  protected toggleVoiceInput(): void {
+    if (this.listening()) {
+      this.stopVoiceInput();
+      return;
+    }
+
+    this.startVoiceInput('en-IN');
+  }
+
   submitEntry(): void {
     if (this.form.invalid || this.processing()) {
       this.form.markAllAsTouched();
@@ -130,6 +187,108 @@ export class Dashboard implements AfterViewInit, OnInit {
     this.form.controls.entry.setValue(suggestion.replace(/^Try recording a purchase first, for example:\s*/i, ''));
     this.error.set('');
     this.purchaseSuggestion.set('');
+  }
+
+  private startVoiceInput(language: 'en-IN' | 'hi-IN'): void {
+    if (!this.isBrowser) {
+      return;
+    }
+
+    const SpeechRecognition = (window as SpeechRecognitionWindow).SpeechRecognition ?? (window as SpeechRecognitionWindow).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      this.showVoiceError('Voice input is not supported in this browser. Please use Chrome.');
+      return;
+    }
+
+    this.stopVoiceInput();
+    this.error.set('');
+    this.resultVisible.set(false);
+    this.triedHindiFallback = language === 'hi-IN';
+
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = language;
+    recognition.maxAlternatives = 1;
+    recognition.onstart = () => {
+      this.listening.set(true);
+      this.voiceStatus.set('Listening...');
+    };
+    recognition.onresult = (event) => {
+      const transcript = Array.from(event.results)
+        .slice(event.resultIndex)
+        .map((result) => result[0]?.transcript ?? '')
+        .join(' ')
+        .trim();
+
+      if (!transcript) {
+        return;
+      }
+
+      this.form.controls.entry.setValue(transcript);
+      this.form.controls.entry.markAsDirty();
+      this.voiceStatus.set('Voice captured.');
+    };
+    recognition.onerror = (event) => {
+      if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+        this.showVoiceError('Microphone permission denied.');
+        return;
+      }
+
+      if ((event.error === 'language-not-supported' || event.error === 'no-speech') && language === 'en-IN' && !this.triedHindiFallback) {
+        this.startVoiceInput('hi-IN');
+        return;
+      }
+
+      if (event.error !== 'aborted') {
+        this.showVoiceError('Could not capture voice. Please try again.');
+      }
+    };
+    recognition.onend = () => {
+      this.listening.set(false);
+      this.recognition = null;
+
+      if (this.voiceStatus() === 'Listening...') {
+        this.voiceStatus.set('');
+      }
+
+      if (this.form.controls.entry.value.trim()) {
+        this.submitEntry();
+      }
+    };
+
+    this.recognition = recognition;
+
+    try {
+      recognition.start();
+    } catch {
+      this.showVoiceError('Could not start voice input. Please try again.');
+    }
+  }
+
+  private stopVoiceInput(): void {
+    if (!this.recognition) {
+      this.listening.set(false);
+      this.voiceStatus.set('');
+      return;
+    }
+
+    const recognition = this.recognition;
+    recognition.onend = null;
+    recognition.onerror = null;
+    recognition.onresult = null;
+    recognition.onstart = null;
+    recognition.stop();
+    this.recognition = null;
+    this.listening.set(false);
+    this.voiceStatus.set('');
+  }
+
+  private showVoiceError(message: string): void {
+    this.stopVoiceInput();
+    this.voiceStatus.set('');
+    this.error.set(message);
+    this.toast.error(message);
   }
 
   protected undoLastTransaction(): void {

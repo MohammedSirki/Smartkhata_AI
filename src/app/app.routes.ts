@@ -9,6 +9,10 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'marketing',
+    loadComponent: () => import('./pages/home/home').then((m) => m.Home),
+  },
+  {
     path: 'auth',
     children: [
       {
