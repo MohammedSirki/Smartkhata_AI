@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
   'http://localhost:4200',
-  'https://smart-khata-ai-one.vercel.app',
+  'https://smart-khata-ai-theta.vercel.app/',
 ];
 
 const corsOptions = {
