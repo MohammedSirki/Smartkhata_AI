@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
   'http://localhost:4200',
-  'https://smart-khata-ai-theta.vercel.app/',
+  'https://smart-khata-ai-theta.vercel.app',
 ];
 
 const corsOptions = {
@@ -57,7 +57,12 @@ app.get('/api/health', (req, res) => {
     message: 'SmartKhata AI backend is running',
   });
 });
-
+app.get('/api/cors-test', (req, res) => {
+  res.json({
+    success: true,
+    allowedOrigins,
+  });
+});
 app.use('/api/auth', authRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/transactions', transactionRoutes);
